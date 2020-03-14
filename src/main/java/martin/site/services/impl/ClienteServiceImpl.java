@@ -1,5 +1,7 @@
 package martin.site.services.impl;
 
+import java.time.Duration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,16 @@ public class ClienteServiceImpl implements IClienteService {
 	@Override
 	public Mono<Void> eliminar(String v) {
 		return repo.deleteById(v);
+	}
+
+	@Override
+	public Flux<Cliente> listarDemorado() {
+		return repo.findAll().delayElements(Duration.ofSeconds(1));
+	}
+
+	@Override
+	public Flux<Cliente> listarSobrecargado() {
+		return repo.findAll().repeat(700);
 	}
 
 }
